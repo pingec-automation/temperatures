@@ -18,13 +18,13 @@
 // ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
 // `;
 
-                var temps = arguments[2].responseText.split("\n")
+                var temps = arguments[2].responseText.split("\n").filter(Boolean);
                 var data = new google.visualization.DataTable();
                 //data.addColumn('string', 'time');
                 data.addColumn('date', 'Time Of Readout')
                 data.addColumn('number', 'Temp [°C]');
 
-                temps.split("\n").filter(Boolean).forEach((l,i) => {
+                temps.forEach((l,i) => {
                     let readings = l.split(" ");
                     //console.log(readings);
                     let time = readings[0].split("ts:")[1];
