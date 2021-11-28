@@ -1,58 +1,79 @@
 <html>
-  <head>
+
+<head>
     <script type="text/javascript" src="//code.jquery.com/jquery-2.0.3.min.js"></script>
-	<script type="text/javascript" src="//www.google.com/jsapi"></script>
-	
+    <script type="text/javascript" src="//www.google.com/jsapi"></script>
+
     <script type="text/javascript">
- 
-	 function drawChart() {
 
-		$.ajax({
-		  url: "temps.log",
-		  context: document.body
-		}).done(function() {
-		  
-		//var temps = ["22.09.13 13:19:03 temp: 30.00","22.09.13 13:20:02 temp: 29.56","22.09.13 13:21:02 temp: 29.25","22.09.13 13:22:02 temp: 29.00","22.09.13 13:23:02 temp: 28.75","22.09.13 13:24:03 temp: 28.63","22.09.13 13:25:03 temp: 28.50","22.09.13 13:26:02 temp: 28.38","22.09.13 13:27:02 temp: 28.31","22.09.13 13:28:02 temp: 28.19","22.09.13 13:29:03 temp: 28.13","22.09.13 13:30:02 temp: 28.06","22.09.13 13:31:02 temp: 28.06","22.09.13 13:32:02 temp: 28.06","22.09.13 13:33:03 temp: 28.00","22.09.13 13:34:02 temp: 28.00","22.09.13 13:35:03 temp: 28.00","22.09.13 13:36:02 temp: 28.00","22.09.13 13:37:03 temp: 28.00","22.09.13 13:38:03 temp: 28.00","22.09.13 13:39:03 temp: 28.00","22.09.13 13:40:03 temp: 28.00","22.09.13 13:41:03 temp: 27.94","22.09.13 13:42:03 temp: 27.94","22.09.13 13:43:03 temp: 27.94","22.09.13 13:44:03 temp: 27.94","22.09.13 13:45:03 temp: 27.94","22.09.13 13:46:03 temp: 27.94","22.09.13 13:47:03 temp: 28.00","22.09.13 13:48:03 temp: 27.94","22.09.13 13:49:03 temp: 28.00","22.09.13 13:50:03 temp: 28.00","22.09.13 13:51:03 temp: 28.06","22.09.13 13:52:03 temp: 28.06","22.09.13 13:53:03 temp: 28.13","22.09.13 13:54:03 temp: 28.06","22.09.13 13:55:03 temp: 28.13","22.09.13 13:56:03 temp: 28.13","22.09.13 13:57:03 temp: 28.13","22.09.13 13:58:03 temp: 28.19","22.09.13 13:59:03 temp: 28.13","22.09.13 14:00:03 temp: 28.19"];
-		 
-		var temps = arguments[2].responseText.split("\r\n")
-		  
-		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'time');
-		data.addColumn('number', 'temp. v °C');
-		
-		for(var i = 0; i < temps.length-1; i++){
-		 
-			var temp = parseFloat(temps[i].split(": ")[1]);
-			var time = temps[i].split(" ")[0] + " " + temps[i].split(" ")[1]
-			
-			console.log(temp, time);
-			
-			data.addRow();
-			data.setValue(i, 0, time);
-			data.setValue(i, 1, temp);
-			
-		}
-			var chart = new google.visualization.LineChart(document.getElementById('chart'));
-			chart.draw(data, {width: 1000, height: 240, title: 'Osp notri'});
-		});
-		
+        function drawChart() {
 
-					 
+            $.ajax({
+                url: "temps.log",
+                context: document.body
+            }).done(function () {
 
-	}
+                var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
+ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
+ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
+`;
 
-	google.load("visualization", "1", {packages:["corechart"]});
-	google.setOnLoadCallback(drawChart);
-	
-	setInterval(drawChart,120 * 1000);
-	  
-	
-	  
-	  
+                //var temps = arguments[2].responseText.split("\r\n")
+                var data = new google.visualization.DataTable();
+                //data.addColumn('string', 'time');
+                data.addColumn('date', 'Time Of Readout')
+                data.addColumn('number', 'Temp [°C]');
+
+                temps.split("\n").filter(Boolean).forEach(l => {
+                    let readings = l.split(" ");
+                    //console.log(readings);
+                    let time = readings[0].split("ts:")[1];
+                    let temperature = readings[1].split("t:")[1];
+                    let humidity = readings[2].split("h:")[1];
+                    let battery = readings[3].split("b:")[1];
+
+                    data.addRow();
+                    data.setValue(i, 0, new Date(time));
+                    data.setValue(i, 1, parseFloat(temperature));
+
+                });
+
+
+
+                // for(var i = 0; i < temps.length-1; i++){
+
+                // 	var temp = parseFloat(temps[i].split(": ")[1]);
+                // 	var time = temps[i].split(" ")[0] + " " + temps[i].split(" ")[1]
+
+                // 	console.log(temp, time);
+
+                // 	data.addRow();
+                // 	data.setValue(i, 0, time);
+                // 	data.setValue(i, 1, temp);
+
+                // }
+                var chart = new google.visualization.LineChart(document.getElementById('chart'));
+                chart.draw(data, { width: 1000, height: 240, title: 'Title here' });
+            });
+
+
+
+
+        }
+
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawChart);
+
+        setInterval(drawChart, 120 * 1000);
+
+
+
+
     </script>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="chart"></div>
-  </body>
+</body>
+
 </html>
