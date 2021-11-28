@@ -52,8 +52,16 @@
                 // 	data.setValue(i, 1, temp);
 
                 // }
-                var chart = new google.visualization.LineChart(document.getElementById('chart'));
-                chart.draw(data, { width: 1000, height: 240, title: 'Title here' });
+                let chart = new google.visualization.LineChart(document.getElementById('chart'));
+                let options = { 
+                    vAxes:{
+                        0: {title: "aaaa", baseline: 0}
+                    },
+                    width: 1000, 
+                    height: 240, 
+                    title: 'Osp' 
+                };
+                chart.draw(data, options);
             });
 
 
