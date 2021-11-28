@@ -39,6 +39,9 @@
                     data.setValue(i, 2, parseFloat(humidity));
 
                 });
+                
+                var dateFormatter = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy HH:mm'});
+                dateFormatter.format(data, 0); // Apply formatter to first column
 
                 let chart = new google.visualization.LineChart(document.getElementById('chart'));
                 let options = { 
