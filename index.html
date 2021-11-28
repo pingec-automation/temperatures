@@ -55,11 +55,12 @@
                 let chart = new google.visualization.LineChart(document.getElementById('chart'));
                 let options = { 
                     vAxes:{
-                        0: {title: "Temp [°C]", baseline: 0}
+                        0: {title: "Temp [°C]", baseline: 0} //start Y axis at value 0
                     },
                     width: 1000, 
                     height: 240, 
-                    title: 'Osp' 
+                    title: 'Osp',
+                    pointSize: 20
                 };
                 chart.draw(data, options);
             });
