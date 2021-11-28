@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # store credentials on disk https://stackoverflow.com/a/56058897
-# git config (--global?) credential.helper store
+# git config --global credential.helper store
 
 # stash local changes, update repo to latest version
 git stash

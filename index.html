@@ -40,20 +40,6 @@
 
                 });
 
-
-
-                // for(var i = 0; i < temps.length-1; i++){
-
-                // 	var temp = parseFloat(temps[i].split(": ")[1]);
-                // 	var time = temps[i].split(" ")[0] + " " + temps[i].split(" ")[1]
-
-                // 	console.log(temp, time);
-
-                // 	data.addRow();
-                // 	data.setValue(i, 0, time);
-                // 	data.setValue(i, 1, temp);
-
-                // }
                 let chart = new google.visualization.LineChart(document.getElementById('chart'));
                 let options = { 
                     // Gives each series an axis that matches the vAxes number below.
@@ -73,19 +59,13 @@
                 };
                 chart.draw(data, options);
             });
-
-
-
-
+            
         }
 
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawChart);
 
         setInterval(drawChart, 120 * 1000);
-
-
-
 
     </script>
 </head>
