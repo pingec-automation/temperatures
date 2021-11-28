@@ -22,7 +22,7 @@
                 var data = new google.visualization.DataTable();
                 //data.addColumn('string', 'time');
                 data.addColumn('date', 'Time Of Readout')
-                data.addColumn('number', 'Temp [°C]');
+                data.addColumn('number', 'Temperature');
 
                 temps.forEach((l,i) => {
                     let readings = l.split(" ");
@@ -55,7 +55,7 @@
                 let chart = new google.visualization.LineChart(document.getElementById('chart'));
                 let options = { 
                     vAxes:{
-                        0: {title: "aaaa", baseline: 0}
+                        0: {title: "Temp [°C]", baseline: 0}
                     },
                     width: 1000, 
                     height: 240, 
