@@ -13,10 +13,10 @@
                 context: document.body
             }).done(function () {
 
-//                 var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
-// ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
-// ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
-// `;
+                //                 var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
+                // ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
+                // ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
+                // `;
 
                 var temps = arguments[2].responseText.split("\n").filter(Boolean);
                 var data = new google.visualization.DataTable();
@@ -25,7 +25,7 @@
                 data.addColumn('number', 'Temperature');
                 data.addColumn('number', 'Humidity');
 
-                temps.forEach((l,i) => {
+                temps.forEach((l, i) => {
                     let readings = l.split(" ");
                     //console.log(readings);
                     let time = readings[0].split("ts:")[1];
@@ -39,30 +39,34 @@
                     data.setValue(i, 2, parseFloat(humidity));
 
                 });
-                
-                var dateFormatter = new google.visualization.DateFormat({pattern: 'dd/MM/yyyy HH:mm'});
+
+                var dateFormatter = new google.visualization.DateFormat({ pattern: 'dd/MM/yyyy HH:mm' });
                 dateFormatter.format(data, 0); // Apply formatter to first column
 
                 let chart = new google.visualization.LineChart(document.getElementById('chart'));
-                let options = { 
+                let options = {
                     // Gives each series an axis that matches the vAxes number below.
                     series: {
-                        0: {targetAxisIndex: 0},
-                        1: {targetAxisIndex: 1}
+                        0: { targetAxisIndex: 0 },
+                        1: { targetAxisIndex: 1 }
                     },
                     // Adds titles to each axis.
-                    vAxes:{
-                        0: {title: "Temp [°C]", baseline: 0}, //start Y axis at value 0
-                        1: {title: "Humidity %", baseline: 0}
+                    vAxes: {
+                        0: { title: "Temp [°C]", baseline: 0 }, //start Y axis at value 0
+                        1: { title: "Humidity %", baseline: 0 }
                     },
-                    width: 1000, 
-                    height: 240, 
+                    // Set date formatter for X labels
+                    hAxis: {
+                        format: 'dd/MM HH:mm'
+                    },
+                    width: 1000,
+                    height: 240,
                     title: 'Osp',
                     pointSize: 5
                 };
                 chart.draw(data, options);
             });
-            
+
         }
 
         google.load("visualization", "1", { packages: ["corechart"] });
