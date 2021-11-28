@@ -32,7 +32,7 @@ else
 	battery=$(echo "scale=3; $battery1000 / 1000" | bc)
 	timestamp=$(date --iso-8601=seconds)
 	
-	echo ts:$timestamp t:$temperature h:$humidity b:$battery hex:$hexa
+	echo ts:$timestamp t:$temperature h:$humidity b:$battery >> temps.log
 	
 	
 
