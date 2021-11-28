@@ -23,6 +23,7 @@
                 //data.addColumn('string', 'time');
                 data.addColumn('date', 'Time Of Readout')
                 data.addColumn('number', 'Temperature');
+                data.addColumn('number', 'Humidity');
 
                 temps.forEach((l,i) => {
                     let readings = l.split(" ");
@@ -35,6 +36,7 @@
                     data.addRow();
                     data.setValue(i, 0, new Date(time));
                     data.setValue(i, 1, parseFloat(temperature));
+                    data.setValue(i, 2, parseFloat(humidity));
 
                 });
 
@@ -55,7 +57,8 @@
                 let chart = new google.visualization.LineChart(document.getElementById('chart'));
                 let options = { 
                     vAxes:{
-                        0: {title: "Temp [°C]", baseline: 0} //start Y axis at value 0
+                        0: {title: "Temp [°C]", baseline: 0}, //start Y axis at value 0
+                        1: {title: "Humidity %", baseline: 0}
                     },
                     width: 1000, 
                     height: 240, 
