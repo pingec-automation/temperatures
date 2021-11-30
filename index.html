@@ -8,6 +8,17 @@
 
         function drawChart() {
 
+            
+            $.ajax({
+                url: "monitored.txt",
+                context: document.body
+            }).done(function (data) {
+
+                debugger;
+                
+
+            });
+
             $.ajax({
                 url: "temps.log",
                 context: document.body
