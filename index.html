@@ -32,10 +32,11 @@
             data.addColumn('number', 'Temperature');
             data.addColumn('number', 'Humidity');
             
+            let temperature;
             temps.forEach((l, i) => {
                 let readings = l.split(" ");
                 let time = readings[0].split("ts:")[1];
-                let temperature = readings[1].split("t:")[1];
+                temperature = readings[1].split("t:")[1];
                 let humidity = readings[2].split("h:")[1];
                 let battery = readings[3].split("b:")[1];
 
@@ -68,7 +69,7 @@
                 },
                 width: 1000,
                 height: 240,
-                title: title
+                title: title + ` - ${temperature}°C`
             };
 
             var chartDiv = document.createElement('div');
