@@ -47,10 +47,10 @@
                     case ChartType.Temperature:
                         data.setValue(i, 1, parseFloat(temperature));
                         break;
-                    case ChartType.Temperature:
+                    case ChartType.Humidity:
                         data.setValue(i, 1, parseFloat(humidity));
                         break;
-                    case ChartType.Temperature:
+                    case ChartType.Battery:
                         data.setValue(i, 1, parseFloat(battery));
                         break;
                 }
@@ -69,10 +69,10 @@
                 case ChartType.Temperature:
                     targetAxisIndex = 0;
                     break;
-                case ChartType.Temperature:
+                case ChartType.Humidity:
                     targetAxisIndex = 1;
                     break;
-                case ChartType.Temperature:
+                case ChartType.Battery:
                     targetAxisIndex = 2;
                     break;
             }
