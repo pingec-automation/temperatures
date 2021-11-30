@@ -187,7 +187,10 @@
                         //drawChart(logTxt, title, ChartType.Temperature);
                         //drawChart(logTxt, title, ChartType.Humidity);
                         drawCombinedChart(logTxt, title);
-                        drawChart(logTxt, title, ChartType.Battery);
+                        
+                        if(window.location.hash.indexOf("battery") >- 0){
+                            drawChart(logTxt, title, ChartType.Battery);
+                        }                       
                     });
                 });
             });
