@@ -16,9 +16,11 @@
 
                 let deviceMacs = deviceMacsTxt.split(" ");
                 deviceMacs.forEach(m => {
+
+                    let url = encodeURIComponent(m + ".log");
                     
                     $.ajax({
-                        url: m+".log",
+                        url:url,
                         context: document.body
                     }).done(function (log) {
                         debugger;
