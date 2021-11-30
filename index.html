@@ -8,22 +8,22 @@
 
         const macToName = {
             "A4:C1:38:25:A9:E4": "Osp zgoraj",
-            "A4:C1:38:DC:AC:85": "Osp spodaj"        
+            "A4:C1:38:DC:AC:85": "Osp spodaj"
         };
 
         const ChartType = {
-            Temperature = "Temperature",
-            Humidity = "Humidity",
-            Battery = "Battery"
+            Temperature: "Temperature",
+            Humidity: "Humidity",
+            Battery: "Battery"
         };
 
         function drawChart(logTxt, title, chartType) {
 
-            /* 
+            /*
             var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
-ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
-ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
-`;
+    ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
+    ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
+    `;
             */
 
             var temps = logTxt.split("\n").filter(Boolean);
@@ -35,7 +35,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
             data.addColumn('number', 'Battery');
 
             temps.forEach((l, i) => {
-                let readings = l.split(" ");                
+                let readings = l.split(" ");
                 let time = readings[0].split("ts:")[1];
                 let temperature = readings[1].split("t:")[1];
                 let humidity = readings[2].split("h:")[1];
@@ -65,11 +65,11 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                     targetAxisIndex = 2;
                     break;
             }
-            
+
             let chartOptions = {
                 // Gives each series an axis that matches the vAxes number below.
                 series: {
-                    0: { targetAxisIndex: targetAxisIndex},
+                    0: { targetAxisIndex: targetAxisIndex },
                     //0: { targetAxisIndex: 0 },
                     //1: { targetAxisIndex: 1 },
                     //2: { targetAxisIndex: 2 }
@@ -97,7 +97,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
 
         function fetchDrawCharts() {
 
-            $.ajax({                
+            $.ajax({
                 url: "monitored.txt",
                 context: document.body
             }).done(function (deviceMacsTxt) {
@@ -107,7 +107,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                     $.ajax({
                         url: url,
                         context: document.body
-                    }).done(function (logTxt) {                        
+                    }).done(function (logTxt) {
                         const title = macToName[mac];
                         drawChart(logTxt, title, ChartType.Temperature);
                         drawChart(logTxt, title, ChartType.Humidity);
@@ -128,7 +128,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(fetchDrawCharts);
 
-        setInterval(() => { 
+        setInterval(() => {
             document.body.innerHTML = "";
             fetchDrawCharts();
         }, 120 * 1000);
@@ -136,7 +136,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
     </script>
 </head>
 
-<body>    
+<body>
 </body>
 
 </html>
