@@ -1,4 +1,4 @@
-1. Scan devices with ```hcitool lescann```
+1. Scan devices with ```sudo hcitool lescann```
 1. Find MAC of thermometer eg. A4:C1:38:25:A9:E4 LYWSD03MMC
 1. Replace MAC in btread.sh with scanned value
 1. Setup git username and email, set it to store password to disk with ```git config --global credential.helper store```
