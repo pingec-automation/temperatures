@@ -6,12 +6,19 @@
 
     <script type="text/javascript">
 
-        function renderData(logTxt) {
+        const macToName = {
+            "A4:C1:38:25:A9:E4": "Osp zgoraj",
+            "A4:C1:38:DC:AC:85": "Osp spodaj"        
+        };
 
-            //                 var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
-            // ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
-            // ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
-            // `;
+        function renderData(logTxt, title) {
+
+            /* 
+            var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
+            ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
+            ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
+            `;
+            */
 
             var temps = logTxt.split("\n").filter(Boolean);
             var data = new google.visualization.DataTable();
@@ -60,7 +67,7 @@
                 },
                 width: 1000,
                 height: 240,
-                title: 'Osp',
+                title: title,
                 pointSize: 5
             };
             chart.draw(data, options);
@@ -74,13 +81,14 @@
                 context: document.body
             }).done(function (deviceMacsTxt) {
                 let deviceMacs = deviceMacsTxt.split(" ");
-                deviceMacs.forEach(m => {
-                    let url = encodeURIComponent(m + ".log");
+                deviceMacs.forEach(mac => {
+                    let url = encodeURIComponent(mac + ".log");
                     $.ajax({
                         url: url,
                         context: document.body
                     }).done(function (logTxt) {
-                        renderData(logTxt);
+                        const title = macToName[mac];
+                        renderData(logTxt, title);
                     });
                 });
             });
@@ -97,13 +105,15 @@
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawChart);
 
-        setInterval(drawChart, 120 * 1000);
+        setInterval(() => { 
+            document.body.innerHTML = "";
+            drawChart();
+        }, 120 * 1000);
 
     </script>
 </head>
 
-<body>
-    <div id="chart"></div>
+<body>    
 </body>
 
 </html>
