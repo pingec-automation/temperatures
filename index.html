@@ -23,6 +23,59 @@
             Battery: "orange"
         };
 
+        function drawCombinedChart(logTxt){
+
+            let temps = logTxt.split("\n").filter(Boolean);
+            let data = new google.visualization.DataTable();
+            // Order of added columns is important            
+            data.addColumn('date', 'Time Of Readout');
+            data.addColumn('number', 'Temperature');
+            data.addColumn('number', 'Humidity');
+            
+            temps.forEach((l, i) => {
+                let readings = l.split(" ");
+                let time = readings[0].split("ts:")[1];
+                let temperature = readings[1].split("t:")[1];
+                let humidity = readings[2].split("h:")[1];
+                let battery = readings[3].split("b:")[1];
+
+                data.addRow();
+                data.setValue(i, 0, new Date(time));
+                data.setValue(i, 1, parseFloat(temperature));
+                data.setValue(i, 2, parseFloat(humidity));
+            });
+
+            let dateFormatter = new google.visualization.DateFormat({ pattern: 'dd/MM/yyyy HH:mm' });
+            dateFormatter.format(data, 0); // Apply formatter to first column
+
+            let chartOptions = {
+                // Gives each series an axis that matches the vAxes number below.
+                series: {
+                    0: { targetAxisIndex: 0, pointSize: 5 },
+                    1: { targetAxisIndex: 1, pointSize: 1 }                    
+                },
+                // Adds titles to each axis.
+                vAxes: {
+                    0: { title: "Temperature", baseline: 0 }, //start Y axis at value 0
+                    1: { title: "Humidity %", baseline: 0 },                    
+                },
+                // Set date formatter for X labels
+                hAxis: {
+                    format: 'dd/MM/yyyy HH:mm'
+                },
+                width: 1000,
+                height: 240,
+                title: title
+            };
+
+            var chartDiv = document.createElement('div');
+            document.body.appendChild(chartDiv);
+
+            let chart = new google.visualization.LineChart(chartDiv);
+            chart.draw(data, chartOptions);
+        }
+
+
         function drawChart(logTxt, title, chartType) {
 
             /*
@@ -131,8 +184,9 @@
                         context: document.body
                     }).done(function (logTxt) {
                         const title = macToName[mac];
-                        drawChart(logTxt, title, ChartType.Temperature);
-                        drawChart(logTxt, title, ChartType.Humidity);
+                        //drawChart(logTxt, title, ChartType.Temperature);
+                        //drawChart(logTxt, title, ChartType.Humidity);
+                        drawCombinedChart(logTxt);
                         drawChart(logTxt, title, ChartType.Battery);
                     });
                 });
