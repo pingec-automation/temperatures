@@ -12,9 +12,21 @@
             $.ajax({
                 url: "monitored.txt",
                 context: document.body
-            }).done(function (data) {
+            }).done(function (deviceMacsTxt) {
 
-                debugger;
+                let deviceMacs = deviceMacsTxt.split(" ");
+                deviceMacs.forEach(m => {
+                    
+                    $.ajax({
+                        url: m+".log",
+                        context: document.body
+                    }).done(function (log) {
+                        debugger;
+
+                    });
+
+
+                });
                 
 
             });
