@@ -23,7 +23,7 @@
             Battery: "orange"
         };
 
-        function drawCombinedChart(logTxt){
+        function drawCombinedChart(logTxt, title){
 
             let temps = logTxt.split("\n").filter(Boolean);
             let data = new google.visualization.DataTable();
@@ -186,7 +186,7 @@
                         const title = macToName[mac];
                         //drawChart(logTxt, title, ChartType.Temperature);
                         //drawChart(logTxt, title, ChartType.Humidity);
-                        drawCombinedChart(logTxt);
+                        drawCombinedChart(logTxt, title);
                         drawChart(logTxt, title, ChartType.Battery);
                     });
                 });
