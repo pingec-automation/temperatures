@@ -138,14 +138,14 @@
                 });
             });
 
-            $.ajax({
-                url: "temps.log",
-                context: document.body
-            }).done(function (logTxt) {                
-                drawChart(logTxt, "temps.log", ChartType.Temperature);
-                drawChart(logTxt, "temps.log", ChartType.Humidity);
-                drawChart(logTxt, "temps.log", ChartType.Battery);
-            });
+            // $.ajax({
+            //     url: "temps.log",
+            //     context: document.body
+            // }).done(function (logTxt) {                
+            //     drawChart(logTxt, "temps.log", ChartType.Temperature);
+            //     drawChart(logTxt, "temps.log", ChartType.Humidity);
+            //     drawChart(logTxt, "temps.log", ChartType.Battery);
+            // });
 
         }
 
