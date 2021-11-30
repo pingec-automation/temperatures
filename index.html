@@ -43,20 +43,9 @@
 
                 data.addRow();
                 data.setValue(i, 0, new Date(time));
-                switch (chartType) {
-                    case ChartType.Temperature:
-                        data.setValue(i, 1, parseFloat(temperature));
-                        break;
-                    case ChartType.Temperature:
-                        data.setValue(i, 1, parseFloat(humidity));
-                        break;
-                    case ChartType.Temperature:
-                        data.setValue(i, 1, parseFloat(battery));
-                        break;
-                }
-                // data.setValue(i, 1, parseFloat(temperature));
-                // data.setValue(i, 2, parseFloat(humidity));
-                // data.setValue(i, 3, parseFloat(battery));
+                data.setValue(i, 1, parseFloat(temperature));
+                data.setValue(i, 2, parseFloat(humidity));
+                data.setValue(i, 3, parseFloat(battery));
 
             });
 
@@ -79,12 +68,12 @@
 
             let chartOptions = {
                 // Gives each series an axis that matches the vAxes number below.
-                // series: {
-                //     0: { targetAxisIndex: targetAxisIndex },
-                //     //0: { targetAxisIndex: 0 },
-                //     //1: { targetAxisIndex: 1 },
-                //     //2: { targetAxisIndex: 2 }
-                // },
+                series: {
+                    0: { targetAxisIndex: targetAxisIndex },
+                    //0: { targetAxisIndex: 0 },
+                    //1: { targetAxisIndex: 1 },
+                    //2: { targetAxisIndex: 2 }
+                },
                 // Adds titles to each axis.
                 vAxes: {
                     0: { title: chartType, baseline: 0 }, //start Y axis at value 0
