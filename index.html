@@ -43,9 +43,20 @@
 
                 data.addRow();
                 data.setValue(i, 0, new Date(time));
-                data.setValue(i, 1, parseFloat(temperature));
-                data.setValue(i, 2, parseFloat(humidity));
-                data.setValue(i, 3, parseFloat(battery));
+                switch (chartType) {
+                    case ChartType.Temperature:
+                        data.setValue(i, 1, parseFloat(temperature));
+                        break;
+                    case ChartType.Temperature:
+                        data.setValue(i, 1, parseFloat(humidity));
+                        break;
+                    case ChartType.Temperature:
+                        data.setValue(i, 1, parseFloat(battery));
+                        break;
+                }
+                // data.setValue(i, 1, parseFloat(temperature));
+                // data.setValue(i, 2, parseFloat(humidity));
+                // data.setValue(i, 3, parseFloat(battery));
 
             });
 
