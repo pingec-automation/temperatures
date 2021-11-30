@@ -17,6 +17,12 @@
             Battery: "Battery"
         };
 
+        const SeriesColor = {
+            Temperature: "#e2431e",
+            Humidity: "#43459d",
+            Battery: "orange"
+        };
+
         function drawChart(logTxt, title, chartType) {
 
             /*
@@ -29,10 +35,12 @@
             let temps = logTxt.split("\n").filter(Boolean);
             let data = new google.visualization.DataTable();
             // Order of added columns is important            
-            data.addColumn('date', 'Time Of Readout')
-            data.addColumn('number', 'Temperature');
-            data.addColumn('number', 'Humidity');
-            data.addColumn('number', 'Battery');
+            data.addColumn('date', 'Time Of Readout');
+            data.addColumn('number', chartType);
+
+            // data.addColumn('number', 'Temperature');
+            // data.addColumn('number', 'Humidity');
+            // data.addColumn('number', 'Battery');
 
             temps.forEach((l, i) => {
                 let readings = l.split(" ");
@@ -78,6 +86,9 @@
             }
 
             let chartOptions = {
+                series:{
+                    0:{color: SeriesColor[chartType]}
+                },
                 // Gives each series an axis that matches the vAxes number below.
                 // series: {
                 //     0: { targetAxisIndex: targetAxisIndex },
@@ -130,8 +141,10 @@
             $.ajax({
                 url: "temps.log",
                 context: document.body
-            }).done(function (logTxt) {
-                drawChart(logTxt);
+            }).done(function (logTxt) {                
+                drawChart(logTxt, "temps.log", ChartType.Temperature);
+                drawChart(logTxt, "temps.log", ChartType.Humidity);
+                drawChart(logTxt, "temps.log", ChartType.Battery);
             });
 
         }
