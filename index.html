@@ -11,13 +11,13 @@
             "A4:C1:38:DC:AC:85": "Osp spodaj"        
         };
 
-        function renderData(logTxt, title) {
+        function drawChart(logTxt, title) {
 
             /* 
             var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
-            ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
-            ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
-            `;
+ts:2021-11-28T22:13:08+01:00 t:14.26 h:63 b:2.851
+ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
+`;
             */
 
             var temps = logTxt.split("\n").filter(Boolean);
@@ -26,10 +26,10 @@
             data.addColumn('date', 'Time Of Readout')
             data.addColumn('number', 'Temperature');
             data.addColumn('number', 'Humidity');
+            data.addColumn('number', 'Battery');
 
             temps.forEach((l, i) => {
-                let readings = l.split(" ");
-                //console.log(readings);
+                let readings = l.split(" ");                
                 let time = readings[0].split("ts:")[1];
                 let temperature = readings[1].split("t:")[1];
                 let humidity = readings[2].split("h:")[1];
@@ -39,6 +39,7 @@
                 data.setValue(i, 0, new Date(time));
                 data.setValue(i, 1, parseFloat(temperature));
                 data.setValue(i, 2, parseFloat(humidity));
+                data.setValue(i, 3, parseFloat(battery));
 
             });
 
@@ -54,12 +55,14 @@
                 // Gives each series an axis that matches the vAxes number below.
                 series: {
                     0: { targetAxisIndex: 0 },
-                    1: { targetAxisIndex: 1 }
+                    1: { targetAxisIndex: 1 },
+                    2: { targetAxisIndex: 2 }
                 },
                 // Adds titles to each axis.
                 vAxes: {
                     0: { title: "Temp [°C]", baseline: 0 }, //start Y axis at value 0
-                    1: { title: "Humidity %", baseline: 0 }
+                    1: { title: "Humidity %", baseline: 0 },
+                    2: { title: "Battery [V]", baseline: 0 }
                 },
                 // Set date formatter for X labels
                 hAxis: {
@@ -73,10 +76,9 @@
             chart.draw(data, options);
         }
 
-        function drawChart() {
+        function fetchDrawCharts() {
 
-
-            $.ajax({
+            $.ajax({                
                 url: "monitored.txt",
                 context: document.body
             }).done(function (deviceMacsTxt) {
@@ -86,9 +88,9 @@
                     $.ajax({
                         url: url,
                         context: document.body
-                    }).done(function (logTxt) {
+                    }).done(function (logTxt) {                        
                         const title = macToName[mac];
-                        renderData(logTxt, title);
+                        drawChart(logTxt, title);
                     });
                 });
             });
@@ -97,17 +99,17 @@
                 url: "temps.log",
                 context: document.body
             }).done(function (logTxt) {
-                renderData(logTxt);
+                drawChart(logTxt);
             });
 
         }
 
         google.load("visualization", "1", { packages: ["corechart"] });
-        google.setOnLoadCallback(drawChart);
+        google.setOnLoadCallback(fetchDrawCharts);
 
         setInterval(() => { 
             document.body.innerHTML = "";
-            drawChart();
+            fetchDrawCharts();
         }, 120 * 1000);
 
     </script>
