@@ -11,7 +11,13 @@
             "A4:C1:38:DC:AC:85": "Osp spodaj"        
         };
 
-        function drawChart(logTxt, title) {
+        const ChartType = {
+            Temperature = "Temperature",
+            Humidity = "Humidity",
+            Battery = "Battery"
+        };
+
+        function drawChart(logTxt, title, chartType) {
 
             /* 
             var temps = `ts:2021-11-28T22:12:29+01:00 t:14.26 h:63 b:2.851
@@ -22,11 +28,11 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
 
             var temps = logTxt.split("\n").filter(Boolean);
             var data = new google.visualization.DataTable();
-            //data.addColumn('string', 'time');
+            // Order of added columns is important            
             data.addColumn('date', 'Time Of Readout')
             data.addColumn('number', 'Temperature');
             data.addColumn('number', 'Humidity');
-            //data.addColumn('number', 'Battery');
+            data.addColumn('number', 'Battery');
 
             temps.forEach((l, i) => {
                 let readings = l.split(" ");                
@@ -39,29 +45,39 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                 data.setValue(i, 0, new Date(time));
                 data.setValue(i, 1, parseFloat(temperature));
                 data.setValue(i, 2, parseFloat(humidity));
-                //data.setValue(i, 3, parseFloat(battery));
+                data.setValue(i, 3, parseFloat(battery));
 
             });
 
             let dateFormatter = new google.visualization.DateFormat({ pattern: 'dd/MM/yyyy HH:mm' });
             dateFormatter.format(data, 0); // Apply formatter to first column
+            let targetAxisIndex = 0;
 
-            var chartDiv = document.createElement('div');
-            document.body.appendChild(chartDiv);
-
-            //let chart = new google.visualization.LineChart(document.getElementById('chart'));
-            let chart = new google.visualization.LineChart(chartDiv);
-            let options = {
+            // Specify which column in the data to bind the chart series to
+            switch (chartType) {
+                case ChartType.Temperature:
+                    targetAxisIndex = 0;
+                    break;
+                case ChartType.Temperature:
+                    targetAxisIndex = 1;
+                    break;
+                case ChartType.Temperature:
+                    targetAxisIndex = 2;
+                    break;
+            }
+            
+            let chartOptions = {
                 // Gives each series an axis that matches the vAxes number below.
                 series: {
-                    0: { targetAxisIndex: 0 },
-                    1: { targetAxisIndex: 1 },
+                    0: { targetAxisIndex: targetAxisIndex},
+                    //0: { targetAxisIndex: 0 },
+                    //1: { targetAxisIndex: 1 },
                     //2: { targetAxisIndex: 2 }
                 },
                 // Adds titles to each axis.
                 vAxes: {
-                    0: { title: "Temp [°C]", baseline: 0 }, //start Y axis at value 0
-                    1: { title: "Humidity %", baseline: 0 },
+                    0: { title: chartType, baseline: 0 }, //start Y axis at value 0
+                    //1: { title: "Humidity %", baseline: 0 },
                     //2: { title: "Battery [V]", baseline: 0 }
                 },
                 // Set date formatter for X labels
@@ -73,7 +89,10 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                 title: title,
                 pointSize: 5
             };
-            chart.draw(data, options);
+            var chartDiv = document.createElement('div');
+            document.body.appendChild(chartDiv);
+            let chart = new google.visualization.LineChart(chartDiv);
+            chart.draw(data, chartOptions);
         }
 
         function fetchDrawCharts() {
@@ -90,7 +109,9 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                         context: document.body
                     }).done(function (logTxt) {                        
                         const title = macToName[mac];
-                        drawChart(logTxt, title);
+                        drawChart(logTxt, title, ChartType.Temperature);
+                        drawChart(logTxt, title, ChartType.Humidity);
+                        drawChart(logTxt, title, ChartType.Battery);
                     });
                 });
             });
