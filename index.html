@@ -26,7 +26,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
             data.addColumn('date', 'Time Of Readout')
             data.addColumn('number', 'Temperature');
             data.addColumn('number', 'Humidity');
-            data.addColumn('number', 'Battery');
+            //data.addColumn('number', 'Battery');
 
             temps.forEach((l, i) => {
                 let readings = l.split(" ");                
@@ -39,7 +39,7 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                 data.setValue(i, 0, new Date(time));
                 data.setValue(i, 1, parseFloat(temperature));
                 data.setValue(i, 2, parseFloat(humidity));
-                data.setValue(i, 3, parseFloat(battery));
+                //data.setValue(i, 3, parseFloat(battery));
 
             });
 
@@ -56,13 +56,13 @@ ts:2021-11-28T22:24:00+01:00 t:14.24 h:63 b:2.851
                 series: {
                     0: { targetAxisIndex: 0 },
                     1: { targetAxisIndex: 1 },
-                    2: { targetAxisIndex: 2 }
+                    //2: { targetAxisIndex: 2 }
                 },
                 // Adds titles to each axis.
                 vAxes: {
                     0: { title: "Temp [°C]", baseline: 0 }, //start Y axis at value 0
                     1: { title: "Humidity %", baseline: 0 },
-                    2: { title: "Battery [V]", baseline: 0 }
+                    //2: { title: "Battery [V]", baseline: 0 }
                 },
                 // Set date formatter for X labels
                 hAxis: {
