@@ -183,7 +183,7 @@
             }).done(function (deviceMacsTxt) {
                 let deviceMacs = deviceMacsTxt.split(" ");
                 deviceMacs.forEach(mac => {
-                    let url = encodeURIComponent(mac + ".log");
+                    let url = encodeURIComponent(mac + ".trim.log");
                     $.ajax({
                         url: url,
                         context: document.body
