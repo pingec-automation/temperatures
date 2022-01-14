@@ -29,6 +29,10 @@ read_values(){
 		timestamp=$(date --iso-8601=seconds)
 		
 		echo ts:$timestamp t:$temperature h:$humidity b:$battery >> "${device_mac}.log"
+		# Trim to 24*15*2 = 720 lines
+		echo ts:$timestamp t:$temperature h:$humidity b:$battery >> "${device_mac}.trim.log"
+		echo "$(tail -720 ${device_mac}.trim.log)" > "${device_mac}.trim.log"
+		
 	fi
 }
 
