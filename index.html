@@ -7,9 +7,9 @@
     <script type="text/javascript">
 
         const macToName = {
-            "A4:C1:38:25:A9:E4": "Osp zgoraj",
+            "A4:C1:38:25:A9:E4": "Osp",
             "A4:C1:38:DC:AC:85": "Osp spodaj",
-            "A4:C1:38:01:40:25": "Osp zgoraj 2"
+            "A4:C1:38:01:40:25": "Osp zgoraj"
         };
 
         const ChartType = {
@@ -33,12 +33,12 @@
             data.addColumn('number', 'Temperature');
             data.addColumn('number', 'Humidity');
             
-            let temperature;
+            let temperature, humidity;
             temps.forEach((l, i) => {
                 let readings = l.split(" ");
                 let time = readings[0].split("ts:")[1];
                 temperature = readings[1].split("t:")[1];
-                let humidity = readings[2].split("h:")[1];
+                humidity = readings[2].split("h:")[1];
                 let battery = readings[3].split("b:")[1];
 
                 data.addRow();
@@ -70,7 +70,7 @@
                 },
                 width: 1000,
                 height: 240,
-                title: title + ` - ${temperature}°C`
+                title: title + ` - ${temperature}°C ${humidity}%`
             };
 
             var chartDiv = document.createElement('div');
