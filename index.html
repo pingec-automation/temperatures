@@ -175,6 +175,18 @@
             chart.draw(data, chartOptions);
         }
 
+        function lastTimestampTooOld(logTxt, days){
+            let temps = logTxt.split("\n").filter(Boolean);
+            let readings = temps[temps.length-1].split(" ");
+            let ts = readings[0].split("ts:")[1];
+            let datetime = new Date(ts);
+            let now = new Date();
+
+            let cutOffTs = new Date().getTime() - (days * 24 * 60 * 60 * 1000);            
+
+            return now.getTime() < cutOffTs;
+        }
+
         function fetchDrawCharts() {
 
             $.ajax({
@@ -188,6 +200,11 @@
                         url: url,
                         context: document.body
                     }).done(function (logTxt) {
+                        if(lastTimestampTooOld(logTxt, 1)){
+                            // do not render charts of stale data
+                            return;
+                        }
+
                         const title = macToName[mac];
                         //drawChart(logTxt, title, ChartType.Temperature);
                         //drawChart(logTxt, title, ChartType.Humidity);
