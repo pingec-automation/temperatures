@@ -36,6 +36,10 @@ read_values(){
 	fi
 }
 
+sudo hciconfig hci0 down
+sleep 1
+sudo hciconfig hci0 up
+
 for DEVICE in $(cat monitored.txt)
 do
 	read_values "$DEVICE"
