@@ -19,7 +19,7 @@ read_values(){
 		battery1000=$(echo "ibase=16; $batthexa" | bc)
 		
 		if [ $temperature100 -gt 32767 ]; then
-			temperature100=$(($temperature100 – 65536))
+			temperature100=$(echo "$temperature100 - 65536" | bc)
 		fi
 
 		# Add missing leading zero if needed (sed): "-.05" -> "-0.05" and ".05" -> "0.05"
